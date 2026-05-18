@@ -1,0 +1,60 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  description   String
+  category      String   @default("Interview")
+  price         Decimal
+  discountPrice Decimal?
+  imageUrl      String
+  pdfUrl        String
+  bundlePdfUrls String?
+  badge         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Blog {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id             String   @id @default(cuid())
+  email          String
+  fullName       String?
+  amount         Decimal
+  couponCode     String?
+  discountAmount Decimal?
+  taxAmount      Decimal? @map("gstAmount")
+  subtotal       Decimal?
+  createdAt      DateTime @default(now())
+}
+
+model Coupon {
+  id            String       @id @default(cuid())
+  code          String       @unique
+  discountType  String
+  discountValue Decimal
+  minAmount     Decimal?
+  maxDiscount   Decimal?
+  expiryDate    DateTime
+  usageLimit    Int?
+  usedCount     Int          @default(0)
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
