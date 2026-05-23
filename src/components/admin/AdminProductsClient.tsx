@@ -152,6 +152,7 @@ export function AdminProductsClient() {
       return;
     }
     const url = (data as { url: string }).url;
+    setError(null);
     if (kind === "image") {
       setForm((f) => ({ ...f, imageUrl: url }));
       setSuccessMsg(`Image uploaded: ${url}`);
