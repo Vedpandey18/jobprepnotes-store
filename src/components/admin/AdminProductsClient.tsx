@@ -152,9 +152,13 @@ export function AdminProductsClient() {
       return;
     }
     const url = (data as { url: string }).url;
-    if (kind === "image") setForm((f) => ({ ...f, imageUrl: url }));
-    else if (kind === "pdf") setForm((f) => ({ ...f, pdfUrl: url }));
-    else {
+    if (kind === "image") {
+      setForm((f) => ({ ...f, imageUrl: url }));
+      setSuccessMsg(`Image uploaded: ${url}`);
+    } else if (kind === "pdf") {
+      setForm((f) => ({ ...f, pdfUrl: url }));
+      setSuccessMsg(`PDF uploaded: ${url}`);
+    } else {
       setForm((f) => ({
         ...f,
         bundlePdfUrls: f.bundlePdfUrls
@@ -231,6 +235,9 @@ export function AdminProductsClient() {
           </label>
           <label className="block text-sm">
             <span className="text-slate-600 dark:text-slate-400">Cover image URL *</span>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Use Choose File below — URL must start with https:// or /uploads/
+            </p>
             <input
               className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"
               value={form.imageUrl}
@@ -245,6 +252,9 @@ export function AdminProductsClient() {
           </label>
           <label className="block text-sm">
             <span className="text-slate-600 dark:text-slate-400">PDF URL *</span>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Use Choose File below — do not type the file name manually
+            </p>
             <input
               className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"
               value={form.pdfUrl}

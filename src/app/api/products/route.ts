@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { requireAdmin } from "@/lib/admin-auth-http";
 import { prisma } from "@/lib/prisma";
 import { resolveUniqueProductSlug } from "@/lib/unique-product-slug";
+import { isValidMediaUrl, mediaUrlError } from "@/lib/validate-media-url";
 
 export async function GET() {
   try {
@@ -55,6 +56,13 @@ export async function POST(request: NextRequest) {
       { error: "title, price, imageUrl, and pdfUrl are required" },
       { status: 400 }
     );
+  }
+
+  if (!isValidMediaUrl(imageUrl)) {
+    return NextResponse.json({ error: mediaUrlError("Cover image URL") }, { status: 400 });
+  }
+  if (!isValidMediaUrl(pdfUrl)) {
+    return NextResponse.json({ error: mediaUrlError("PDF URL") }, { status: 400 });
   }
 
   const slug = await resolveUniqueProductSlug(title, slugInput);
