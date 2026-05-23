@@ -1,8 +1,16 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { requireAdmin } from "@/lib/admin-auth-http";
+
+function safeFilename(original: string) {
+  const safe = original.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 80);
+  const ext = path.extname(safe) || "";
+  const name = `${Date.now()}-${safe}`;
+  return ext ? name : `${name}.bin`;
+}
 
 export async function POST(request: NextRequest) {
   const denied = await requireAdmin(request);
@@ -21,15 +29,22 @@ export async function POST(request: NextRequest) {
   }
 
   const original = (form.get("filename") as string) || "upload";
-  const safe = original.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 80);
-  const name = `${Date.now()}-${safe}`;
+  const finalName = safeFilename(original);
+  const buf = Buffer.from(await file.arrayBuffer());
+  const contentType = file.type || undefined;
+
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const blob = await put(`uploads/${finalName}`, buf, {
+      access: "public",
+      contentType,
+      addRandomSuffix: false,
+    });
+    return NextResponse.json({ url: blob.url });
+  }
+
   const dir = path.join(process.cwd(), "public", "uploads");
   await mkdir(dir, { recursive: true });
-  const buf = Buffer.from(await file.arrayBuffer());
-  const ext = path.extname(safe) || "";
-  const finalName = ext ? name : `${name}.bin`;
-  const full = path.join(dir, finalName);
-  await writeFile(full, buf);
+  await writeFile(path.join(dir, finalName), buf);
 
   return NextResponse.json({ url: `/uploads/${finalName}` });
 }

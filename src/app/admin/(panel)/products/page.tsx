@@ -13,7 +13,8 @@ export default function AdminProductsPage() {
         Products
       </h1>
       <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-        Add, edit, or remove ebook products. Uploads are stored under{" "}
+        Add, edit, or remove ebook products. On Vercel, uploads are stored in{" "}
+        <strong>Vercel Blob</strong> (permanent). Locally they go to{" "}
         <code className="rounded bg-slate-100 px-1 text-xs dark:bg-slate-800">/public/uploads</code>.
         If the title matches an existing product, the URL slug is auto-suffixed (e.g.{" "}
         <code className="text-xs">mysql-1</code>). For the public shop to use the database,

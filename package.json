@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@vercel/blob": "^2.4.0",
     "jose": "^6.2.2",
     "next": "14.2.35",
     "nodemailer": "^6.9.16",
