@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { handleUpload } from "@vercel/blob/client";
 import { put } from "@vercel/blob";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
@@ -15,6 +16,33 @@ function safeFilename(original: string) {
 export async function POST(request: NextRequest) {
   const denied = await requireAdmin(request);
   if (denied) return denied;
+
+  const ct = request.headers.get("content-type") ?? "";
+
+  if (ct.includes("application/json")) {
+    try {
+      const body = await request.json();
+      const response = await handleUpload({
+        body,
+        request,
+        onBeforeGenerateToken: async () => ({
+          allowedContentTypes: [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+            "application/pdf",
+          ],
+          maximumSizeInBytes: 100 * 1024 * 1024,
+        }),
+        onUploadCompleted: async () => {},
+      });
+      return NextResponse.json(response);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Upload handler error";
+      return NextResponse.json({ error: msg }, { status: 400 });
+    }
+  }
 
   let form: FormData;
   try {

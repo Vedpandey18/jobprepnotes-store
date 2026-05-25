@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { upload } from "@vercel/blob/client";
 
 type ProductRow = {
   id: string;
@@ -37,6 +38,7 @@ export function AdminProductsClient() {
   const [form, setForm] = useState(emptyForm);
   const [busy, setBusy] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -142,30 +144,43 @@ export function AdminProductsClient() {
 
   async function uploadFile(kind: "image" | "pdf" | "bundle", file: File | null) {
     if (!file) return;
-    const fd = new FormData();
-    fd.append("file", file);
-    fd.append("filename", file.name);
-    const r = await fetch("/api/admin/upload", { method: "POST", body: fd });
-    const data = await r.json();
-    if (!r.ok) {
-      setError((data as { error?: string }).error ?? "Upload failed");
-      return;
-    }
-    const url = (data as { url: string }).url;
     setError(null);
-    if (kind === "image") {
-      setForm((f) => ({ ...f, imageUrl: url }));
-      setSuccessMsg(`Image uploaded: ${url}`);
-    } else if (kind === "pdf") {
-      setForm((f) => ({ ...f, pdfUrl: url }));
-      setSuccessMsg(`PDF uploaded: ${url}`);
-    } else {
-      setForm((f) => ({
-        ...f,
-        bundlePdfUrls: f.bundlePdfUrls
-          ? `${f.bundlePdfUrls}\n${url}`
-          : url,
-      }));
+    setUploadProgress(`Uploading ${file.name}…`);
+
+    try {
+      const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 80);
+      const pathname = `uploads/${Date.now()}-${safe}`;
+
+      const blob = await upload(pathname, file, {
+        access: "public",
+        handleUploadUrl: "/api/admin/upload",
+        multipart: true,
+        onUploadProgress: ({ percentage }) => {
+          setUploadProgress(`Uploading ${file.name}… ${Math.round(percentage)}%`);
+        },
+      });
+
+      const url = blob.url;
+      setUploadProgress(null);
+      if (kind === "image") {
+        setForm((f) => ({ ...f, imageUrl: url }));
+        setSuccessMsg(`Image uploaded: ${url}`);
+      } else if (kind === "pdf") {
+        setForm((f) => ({ ...f, pdfUrl: url }));
+        setSuccessMsg(`PDF uploaded: ${url}`);
+      } else {
+        setForm((f) => ({
+          ...f,
+          bundlePdfUrls: f.bundlePdfUrls
+            ? `${f.bundlePdfUrls}\n${url}`
+            : url,
+        }));
+        setSuccessMsg(`Bundle file uploaded: ${url}`);
+      }
+    } catch (err) {
+      setUploadProgress(null);
+      const msg = err instanceof Error ? err.message : "Upload failed";
+      setError(`Upload failed: ${msg}`);
     }
   }
 
@@ -174,6 +189,11 @@ export function AdminProductsClient() {
       {error && (
         <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200">
           {error}
+        </p>
+      )}
+      {uploadProgress && (
+        <p className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200">
+          {uploadProgress}
         </p>
       )}
       {successMsg && (
