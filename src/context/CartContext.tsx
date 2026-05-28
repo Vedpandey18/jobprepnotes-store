@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import type { Product } from "@/types/product";
+import { getDisplayPrices } from "@/lib/pricing";
 
 type CartContextValue = {
   cartItems: Product[];
@@ -46,6 +47,29 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    if (!ready || cartItems.length === 0) return;
+    let cancelled = false;
+    void fetch("/api/products")
+      .then(async (res) => {
+        if (!res.ok) return null;
+        return (await res.json()) as Product[];
+      })
+      .then((rows) => {
+        if (cancelled || !rows) return;
+        const latestById = new Map(rows.map((p) => [p.id, p]));
+        setCartItems((prev) =>
+          prev.map((item) => latestById.get(item.id) ?? item)
+        );
+      })
+      .catch(() => {
+        /* ignore refresh failure; keep cached cart */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [ready]);
+
+  useEffect(() => {
     if (!ready) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
@@ -73,11 +97,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const getTotalPrice = useCallback(() => {
     return cartItems.reduce((sum, p) => {
-      const base = p.price;
-      if (p.discountPercent != null && p.discountPercent > 0) {
-        return sum + Math.round(base * (1 - p.discountPercent / 100) * 100) / 100;
-      }
-      return sum + base;
+      return sum + getDisplayPrices(p).current;
     }, 0);
   }, [cartItems]);
 
