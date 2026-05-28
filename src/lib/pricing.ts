@@ -23,6 +23,13 @@ export function getDisplayPrices(product: Product): {
   original?: number;
 } {
   const base = product.price;
+  if (
+    product.discountPrice != null &&
+    product.discountPrice > 0 &&
+    product.discountPrice < base
+  ) {
+    return { current: product.discountPrice, original: base };
+  }
   if (product.discountPercent != null && product.discountPercent > 0) {
     const discounted =
       Math.round(base * (1 - product.discountPercent / 100) * 100) / 100;

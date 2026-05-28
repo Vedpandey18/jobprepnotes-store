@@ -37,6 +37,12 @@ function isDataEngineerProduct(product: Product): boolean {
   return slug.includes("data-engineer") || title.includes("data engineer");
 }
 
+function isJavaDeveloperProduct(product: Product): boolean {
+  const slug = product.slug.toLowerCase();
+  const title = product.title.toLowerCase();
+  return slug.includes("java-developer") || title.includes("java developer");
+}
+
 export function CheckoutView({
   buyNowProduct,
   productNotFound,
@@ -195,41 +201,28 @@ export function CheckoutView({
       // Hook: replace with Razorpay / your API — open checkout, then confirm.
       console.log("[checkout] payment order payload:", payload);
 
-      try {
-        const orderRes = await fetch("/api/orders", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: trimmed,
-            fullName: nameTrimmed,
-            amount: breakdown.finalTotal,
-            subtotal: breakdown.subtotal,
-            taxAmount: 0,
-            couponCode: appliedCoupon?.code ?? null,
-            discountAmount: appliedCoupon?.discount ?? null,
-          }),
-        });
-        if (!orderRes.ok) {
-          console.warn("[checkout] order persist failed — check DATABASE_URL / Prisma");
-        }
-      } catch (e) {
-        console.warn("[checkout] order persist error", e);
-      }
-
       const amountStr = breakdown.finalTotal.toFixed(2);
+      const subtotalStr = breakdown.subtotal.toFixed(2);
       const q = new URLSearchParams({
         email: trimmed,
+        fullName: nameTrimmed,
         amount: amountStr,
+        subtotal: subtotalStr,
+        taxAmount: "0",
       });
       if (appliedCoupon) {
         q.set("coupon", appliedCoupon.code);
         q.set("discount", String(appliedCoupon.discount));
       }
-      const successUrl = `/success?${q.toString()}`;
       const hasDataEngineer = cartItems.some(isDataEngineerProduct);
-      const selectedCheckoutUrl = hasDataEngineer
-        ? "https://superprofile.bio/vp/Data-Engineer"
-        : superProfileCheckoutUrl;
+      const hasJavaDeveloper = cartItems.some(isJavaDeveloperProduct);
+      const selectedCheckoutUrl = hasJavaDeveloper
+        ? "https://superprofile.bio/vp/javadeveloper"
+        : hasDataEngineer
+          ? "https://superprofile.bio/vp/Data-Engineer"
+          : superProfileCheckoutUrl;
+      q.set("paid", selectedCheckoutUrl ? "1" : "0");
+      const successUrl = `/success?${q.toString()}`;
       if (!selectedCheckoutUrl) {
         router.push(successUrl);
         return;

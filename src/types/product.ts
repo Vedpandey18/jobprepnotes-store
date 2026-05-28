@@ -7,6 +7,7 @@ export type Product = {
   coverImage: string;
   category: string;
   price: number;
+  discountPrice: number | null;
   discountPercent: number | null;
   pdfUrl: string;
   bundlePdfUrls?: string[];

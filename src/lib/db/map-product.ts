@@ -26,6 +26,7 @@ export function prismaProductToProduct(p: PrismaProduct): Product {
     coverImage: p.imageUrl,
     category: p.category,
     price,
+    discountPrice,
     discountPercent,
     pdfUrl: p.pdfUrl,
     bundlePdfUrls,
