@@ -50,13 +50,13 @@ export function CartView() {
             >
               <Link
                 href={href}
-                className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl bg-slate-100 sm:h-24 sm:w-36"
+                className="relative h-28 w-full shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 sm:h-24 sm:w-36 dark:border-slate-700 dark:bg-slate-900"
               >
                 <Image
                   src={product.coverImage}
                   alt={alt}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="144px"
                 />
               </Link>
