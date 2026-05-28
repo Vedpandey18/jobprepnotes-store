@@ -25,13 +25,24 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY = "jobprepnotes_cart_v1";
 
+function uniqueById(items: Product[]): Product[] {
+  const seen = new Set<string>();
+  const out: Product[] = [];
+  for (const item of items) {
+    if (!item?.id || seen.has(item.id)) continue;
+    seen.add(item.id);
+    out.push(item);
+  }
+  return out;
+}
+
 function loadFromStorage(): Product[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as Product[];
-    return Array.isArray(parsed) ? parsed : [];
+    return Array.isArray(parsed) ? uniqueById(parsed) : [];
   } catch {
     return [];
   }
@@ -58,7 +69,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (cancelled || !rows) return;
         const latestById = new Map(rows.map((p) => [p.id, p]));
         setCartItems((prev) =>
-          prev.map((item) => latestById.get(item.id) ?? item)
+          uniqueById(prev.map((item) => latestById.get(item.id) ?? item))
         );
       })
       .catch(() => {
