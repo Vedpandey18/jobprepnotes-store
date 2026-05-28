@@ -272,9 +272,10 @@ export function AdminProductsClient() {
             />
           </label>
           <label className="block text-sm">
-            <span className="text-slate-600 dark:text-slate-400">PDF URL *</span>
+            <span className="text-slate-600 dark:text-slate-400">PDF URL (optional)</span>
             <p className="mt-0.5 text-xs text-slate-500">
-              Use Choose File below — do not type the file name manually
+              Use Choose File below if you want direct file download from this site.
+              Leave blank if download is handled via SuperProfile payment page.
             </p>
             <input
               className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"

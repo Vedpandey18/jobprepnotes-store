@@ -51,9 +51,9 @@ export async function POST(request: NextRequest) {
     body.badge === "" || body.badge == null ? null : String(body.badge).trim();
   const slugInput = String(body.slug ?? "").trim() || undefined;
 
-  if (!title || !Number.isFinite(price) || !imageUrl || !pdfUrl) {
+  if (!title || !Number.isFinite(price) || !imageUrl) {
     return NextResponse.json(
-      { error: "title, price, imageUrl, and pdfUrl are required" },
+      { error: "title, price, and imageUrl are required" },
       { status: 400 }
     );
   }
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
   if (!isValidMediaUrl(imageUrl)) {
     return NextResponse.json({ error: mediaUrlError("Cover image URL") }, { status: 400 });
   }
-  if (!isValidMediaUrl(pdfUrl)) {
+  if (pdfUrl && !isValidMediaUrl(pdfUrl)) {
     return NextResponse.json({ error: mediaUrlError("PDF URL") }, { status: 400 });
   }
 
