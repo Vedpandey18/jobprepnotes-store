@@ -8,20 +8,16 @@ export const metadata: Metadata = {
 
 export default function AdminProductsPage() {
   return (
-    <div>
-      <h1 className="font-display text-2xl font-semibold text-slate-900 dark:text-slate-100">
-        Products
-      </h1>
-      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-        Add, edit, or remove ebook products. On Vercel, uploads are stored in{" "}
-        <strong>Vercel Blob</strong> (permanent). Locally they go to{" "}
-        <code className="rounded bg-slate-100 px-1 text-xs dark:bg-slate-800">/public/uploads</code>.
-        If the title matches an existing product, the URL slug is auto-suffixed (e.g.{" "}
-        <code className="text-xs">mysql-1</code>). For the public shop to use the database,
-        set <code className="text-xs">USE_DEMO_CATALOG=false</code> in{" "}
-        <code className="text-xs">.env</code>.
-      </p>
-      <div className="mt-8">
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-violet-200/70 bg-gradient-to-r from-violet-50 to-indigo-50 p-5 dark:border-violet-800/40 dark:from-violet-950/30 dark:to-indigo-950/20">
+        <h1 className="font-display text-2xl font-semibold text-slate-900 dark:text-slate-100">
+          Products
+        </h1>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+          Manage your products in one place. Use cover image upload + optional SuperProfile payment link.
+        </p>
+      </div>
+      <div>
         <AdminProductsClient />
       </div>
     </div>

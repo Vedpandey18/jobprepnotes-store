@@ -185,7 +185,7 @@ export function AdminProductsClient() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {error && (
         <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200">
           {error}
@@ -205,10 +205,13 @@ export function AdminProductsClient() {
         </p>
       )}
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
         <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-slate-100">
           {editingId ? "Edit product" : "Add product"}
         </h2>
+        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+          Keep it simple: add title, price, cover image, and optional payment link.
+        </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block text-sm">
             <span className="text-slate-600 dark:text-slate-400">Title *</span>
@@ -230,7 +233,7 @@ export function AdminProductsClient() {
           <label className="col-span-full block text-sm">
             <span className="text-slate-600 dark:text-slate-400">Description *</span>
             <textarea
-              rows={3}
+              rows={4}
               className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
@@ -290,7 +293,7 @@ export function AdminProductsClient() {
               Premium bundle files (optional)
             </span>
             <textarea
-              rows={3}
+              rows={2}
               className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"
               value={form.bundlePdfUrls}
               onChange={(e) =>
@@ -322,8 +325,8 @@ export function AdminProductsClient() {
             />
           </label>
         </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button type="button" disabled={busy} onClick={() => void save()} className="btn-primary px-4 py-2 text-sm">
+        <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-200 pt-4 dark:border-slate-700">
+          <button type="button" disabled={busy} onClick={() => void save()} className="btn-primary rounded-xl px-5 py-2.5 text-sm">
             {editingId ? "Update" : "Create"}
           </button>
           {editingId && (
@@ -343,42 +346,48 @@ export function AdminProductsClient() {
         ) : rows.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">No products yet. Connect MySQL and add items.</p>
         ) : (
-          <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-            <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="bg-slate-100 dark:bg-slate-800">
-                <tr>
-                  <th className="p-3 font-semibold">Title</th>
-                  <th className="p-3 font-semibold">Price</th>
-                  <th className="p-3 font-semibold">Slug</th>
-                  <th className="p-3 font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((p) => (
-                  <tr key={p.id} className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">{p.title}</td>
-                    <td className="p-3 tabular-nums">₹{String(p.price)}</td>
-                    <td className="p-3 font-mono text-xs text-slate-500">{p.slug}</td>
-                    <td className="p-3">
-                      <button
-                        type="button"
-                        onClick={() => startEdit(p)}
-                        className="mr-2 text-violet-600 hover:underline dark:text-violet-400"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => void remove(p.id)}
-                        className="text-rose-600 hover:underline dark:text-rose-400"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-4 grid gap-3">
+            {rows.map((p) => (
+              <div
+                key={p.id}
+                className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate font-semibold text-slate-900 dark:text-slate-100">
+                      {p.title}
+                    </p>
+                    <p className="mt-1 font-mono text-xs text-slate-500">
+                      /products/{p.slug}
+                    </p>
+                    <p className="mt-2 text-sm tabular-nums text-slate-700 dark:text-slate-300">
+                      Price: ₹{String(p.price)}
+                      {p.discountPrice != null && p.discountPrice !== "" && (
+                        <span className="ml-2 text-emerald-600 dark:text-emerald-400">
+                          Offer: ₹{String(p.discountPrice)}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => startEdit(p)}
+                      className="text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void remove(p.id)}
+                      className="text-sm font-medium text-rose-600 hover:underline dark:text-rose-400"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
