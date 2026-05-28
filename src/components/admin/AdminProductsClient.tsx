@@ -39,6 +39,7 @@ export function AdminProductsClient() {
   const [busy, setBusy] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [uploadProgress, setUploadProgress] = useState<string | null>(null);
+  const [formStep, setFormStep] = useState<"basic" | "media">("basic");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -66,6 +67,7 @@ export function AdminProductsClient() {
   function startCreate() {
     setEditingId(null);
     setForm(emptyForm);
+    setFormStep("basic");
   }
 
   function startEdit(p: ProductRow) {
@@ -82,6 +84,7 @@ export function AdminProductsClient() {
       bundlePdfUrls: p.bundlePdfUrls ?? "",
       badge: p.badge ?? "",
     });
+    setFormStep("basic");
   }
 
   async function save() {
@@ -212,7 +215,33 @@ export function AdminProductsClient() {
         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
           Keep it simple: add title, price, cover image, and optional payment link.
         </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="mt-4 inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1 text-sm dark:border-slate-700 dark:bg-slate-800/60">
+          <button
+            type="button"
+            onClick={() => setFormStep("basic")}
+            className={`rounded-lg px-3 py-1.5 font-medium transition ${
+              formStep === "basic"
+                ? "bg-white text-violet-700 shadow-sm dark:bg-slate-900 dark:text-violet-300"
+                : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+            }`}
+          >
+            1. Basic info
+          </button>
+          <button
+            type="button"
+            onClick={() => setFormStep("media")}
+            className={`rounded-lg px-3 py-1.5 font-medium transition ${
+              formStep === "media"
+                ? "bg-white text-violet-700 shadow-sm dark:bg-slate-900 dark:text-violet-300"
+                : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100"
+            }`}
+          >
+            2. Media & payment
+          </button>
+        </div>
+
+        {formStep === "basic" ? (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block text-sm">
             <span className="text-slate-600 dark:text-slate-400">Title *</span>
             <input
@@ -257,6 +286,18 @@ export function AdminProductsClient() {
               onChange={(e) => setForm((f) => ({ ...f, discountPrice: e.target.value }))}
             />
           </label>
+          <div className="col-span-full">
+            <button
+              type="button"
+              onClick={() => setFormStep("media")}
+              className="mt-1 text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
+            >
+              Continue to Media & Payment →
+            </button>
+          </div>
+          </div>
+        ) : (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block text-sm">
             <span className="text-slate-600 dark:text-slate-400">Cover image URL *</span>
             <p className="mt-0.5 text-xs text-slate-500">
@@ -324,7 +365,17 @@ export function AdminProductsClient() {
               onChange={(e) => setForm((f) => ({ ...f, badge: e.target.value }))}
             />
           </label>
-        </div>
+          <div className="col-span-full">
+            <button
+              type="button"
+              onClick={() => setFormStep("basic")}
+              className="mt-1 text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
+            >
+              ← Back to Basic info
+            </button>
+          </div>
+          </div>
+        )}
         <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-200 pt-4 dark:border-slate-700">
           <button type="button" disabled={busy} onClick={() => void save()} className="btn-primary rounded-xl px-5 py-2.5 text-sm">
             {editingId ? "Update" : "Create"}
