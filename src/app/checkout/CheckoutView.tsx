@@ -225,7 +225,9 @@ export function CheckoutView({
         q.set("discount", String(appliedCoupon.discount));
       }
       const productPaymentLink =
-        cartItems.find((p) => isHttpUrl(p.pdfUrl))?.pdfUrl ?? "";
+        cartItems.length === 1 && isHttpUrl(cartItems[0]?.pdfUrl)
+          ? cartItems[0].pdfUrl
+          : "";
       const hasDataEngineer = cartItems.some(isDataEngineerProduct);
       const hasJavaDeveloper = cartItems.some(isJavaDeveloperProduct);
       const selectedCheckoutUrl = productPaymentLink
