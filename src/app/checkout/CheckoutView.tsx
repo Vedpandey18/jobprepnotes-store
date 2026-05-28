@@ -43,6 +43,16 @@ function isJavaDeveloperProduct(product: Product): boolean {
   return slug.includes("java-developer") || title.includes("java developer");
 }
 
+function isHttpUrl(value: string | null | undefined): boolean {
+  if (!value) return false;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export function CheckoutView({
   buyNowProduct,
   productNotFound,
@@ -214,13 +224,17 @@ export function CheckoutView({
         q.set("coupon", appliedCoupon.code);
         q.set("discount", String(appliedCoupon.discount));
       }
+      const productPaymentLink =
+        cartItems.find((p) => isHttpUrl(p.pdfUrl))?.pdfUrl ?? "";
       const hasDataEngineer = cartItems.some(isDataEngineerProduct);
       const hasJavaDeveloper = cartItems.some(isJavaDeveloperProduct);
-      const selectedCheckoutUrl = hasJavaDeveloper
-        ? "https://superprofile.bio/vp/javadeveloper"
-        : hasDataEngineer
-          ? "https://superprofile.bio/vp/Data-Engineer"
-          : superProfileCheckoutUrl;
+      const selectedCheckoutUrl = productPaymentLink
+        ? productPaymentLink
+        : hasJavaDeveloper
+          ? "https://superprofile.bio/vp/javadeveloper"
+          : hasDataEngineer
+            ? "https://superprofile.bio/vp/Data-Engineer"
+            : superProfileCheckoutUrl;
       q.set("paid", selectedCheckoutUrl ? "1" : "0");
       const successUrl = `/success?${q.toString()}`;
       if (!selectedCheckoutUrl) {

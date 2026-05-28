@@ -48,6 +48,67 @@ function loadFromStorage(): Product[] {
   }
 }
 
+function parseNumber(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string" && value.trim() !== "") {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+  }
+  return null;
+}
+
+function normalizeApiProduct(raw: unknown): Product | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  const id = typeof r.id === "string" ? r.id : null;
+  const slug = typeof r.slug === "string" ? r.slug : null;
+  const title = typeof r.title === "string" ? r.title : null;
+  const description = typeof r.description === "string" ? r.description : "";
+  const price = parseNumber(r.price);
+  const discountPrice = parseNumber(r.discountPrice);
+  const coverImage =
+    typeof r.coverImage === "string"
+      ? r.coverImage
+      : typeof r.imageUrl === "string"
+        ? r.imageUrl
+        : null;
+
+  if (!id || !slug || !title || !coverImage || price == null) return null;
+
+  let discountPercent: number | null = null;
+  if (discountPrice != null && discountPrice > 0 && discountPrice < price) {
+    discountPercent = Math.round(((price - discountPrice) / price) * 100);
+  } else if (parseNumber(r.discountPercent) != null) {
+    discountPercent = parseNumber(r.discountPercent);
+  }
+
+  return {
+    id,
+    slug,
+    title,
+    description,
+    shortDescription:
+      typeof r.shortDescription === "string"
+        ? r.shortDescription
+        : description.length > 220
+          ? `${description.slice(0, 217)}…`
+          : description,
+    coverImage,
+    category:
+      typeof r.category === "string" && r.category.trim() !== ""
+        ? r.category
+        : "Interview",
+    price,
+    discountPrice,
+    discountPercent,
+    pdfUrl: typeof r.pdfUrl === "string" ? r.pdfUrl : "",
+    bundlePdfUrls: Array.isArray(r.bundlePdfUrls)
+      ? (r.bundlePdfUrls as string[])
+      : undefined,
+    badge: typeof r.badge === "string" ? r.badge : undefined,
+  };
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [ready, setReady] = useState(false);
@@ -63,11 +124,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     void fetch("/api/products")
       .then(async (res) => {
         if (!res.ok) return null;
-        return (await res.json()) as Product[];
+        return (await res.json()) as unknown[];
       })
       .then((rows) => {
         if (cancelled || !rows) return;
-        const latestById = new Map(rows.map((p) => [p.id, p]));
+        const latestProducts = rows
+          .map((row) => normalizeApiProduct(row))
+          .filter((p): p is Product => p !== null);
+        const latestById = new Map(latestProducts.map((p) => [p.id, p]));
         setCartItems((prev) =>
           uniqueById(prev.map((item) => latestById.get(item.id) ?? item))
         );

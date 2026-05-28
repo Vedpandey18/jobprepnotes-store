@@ -272,21 +272,17 @@ export function AdminProductsClient() {
             />
           </label>
           <label className="block text-sm">
-            <span className="text-slate-600 dark:text-slate-400">PDF URL (optional)</span>
+            <span className="text-slate-600 dark:text-slate-400">
+              Payment link (SuperProfile) (optional)
+            </span>
             <p className="mt-0.5 text-xs text-slate-500">
-              Use Choose File below if you want direct file download from this site.
-              Leave blank if download is handled via SuperProfile payment page.
+              Add full checkout link (https://...). If set, Proceed to Pay will
+              redirect there.
             </p>
             <input
               className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"
               value={form.pdfUrl}
               onChange={(e) => setForm((f) => ({ ...f, pdfUrl: e.target.value }))}
-            />
-            <input
-              type="file"
-              accept="application/pdf"
-              className="mt-1 text-xs"
-              onChange={(e) => void uploadFile("pdf", e.target.files?.[0] ?? null)}
             />
           </label>
           <label className="col-span-full block text-sm">

@@ -6,6 +6,15 @@ import { prisma } from "@/lib/prisma";
 import { resolveUniqueProductSlug } from "@/lib/unique-product-slug";
 import { isValidMediaUrl, mediaUrlError } from "@/lib/validate-media-url";
 
+function isValidHttpUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export async function GET() {
   try {
     const products = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
@@ -61,8 +70,11 @@ export async function POST(request: NextRequest) {
   if (!isValidMediaUrl(imageUrl)) {
     return NextResponse.json({ error: mediaUrlError("Cover image URL") }, { status: 400 });
   }
-  if (pdfUrl && !isValidMediaUrl(pdfUrl)) {
-    return NextResponse.json({ error: mediaUrlError("PDF URL") }, { status: 400 });
+  if (pdfUrl && !isValidHttpUrl(pdfUrl)) {
+    return NextResponse.json(
+      { error: "Payment link must be a full URL (https://...)." },
+      { status: 400 }
+    );
   }
 
   const slug = await resolveUniqueProductSlug(title, slugInput);
