@@ -8,8 +8,11 @@ import { productDetailPath } from "@/lib/urls";
 import { formatPrice, getDisplayPrices } from "@/lib/pricing";
 
 export function CartView() {
-  const { cartItems, removeFromCart, getTotalPrice, ready } = useCart();
-  const subtotal = getTotalPrice();
+  const { cartItems, removeFromCart, ready } = useCart();
+  const subtotal = cartItems.reduce(
+    (sum, product) => sum + getDisplayPrices(product).current,
+    0
+  );
 
   if (!ready) {
     return (
@@ -56,6 +59,7 @@ export function CartView() {
                   src={product.coverImage}
                   alt={alt}
                   fill
+                  unoptimized
                   className="object-contain"
                   sizes="144px"
                 />

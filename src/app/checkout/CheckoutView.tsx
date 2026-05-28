@@ -298,6 +298,7 @@ export function CheckoutView({
                           src={p.coverImage}
                           alt={thumbAlt}
                           fill
+                          unoptimized
                           className="object-contain"
                           sizes="44px"
                         />
