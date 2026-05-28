@@ -26,38 +26,33 @@ export default async function AdminDashboardPage() {
   let blogCount = 0;
   let orderCount = 0;
   let revenue = 0;
-  let recentOrders: {
-    id: string;
-    email: string;
-    fullName: string | null;
-    amount: unknown;
-    createdAt: Date;
-  }[] = [];
 
   if (process.env.DATABASE_URL) {
     try {
-      const [p, b, o, sum, orders] = await Promise.all([
+      const [p, b, orders] = await Promise.all([
         prisma.product.count(),
         prisma.blog.count(),
-        prisma.order.count(),
-        prisma.order.aggregate({ _sum: { amount: true } }),
         prisma.order.findMany({
-          take: 6,
           orderBy: { createdAt: "desc" },
           select: {
-            id: true,
-            email: true,
-            fullName: true,
             amount: true,
-            createdAt: true,
+            subtotal: true,
+            discountAmount: true,
+            taxAmount: true,
           },
         }),
       ]);
       productCount = p;
       blogCount = b;
-      orderCount = o;
-      revenue = sum._sum.amount != null ? Number(sum._sum.amount) : 0;
-      recentOrders = orders;
+      orderCount = orders.length;
+      revenue = orders.reduce((sum, row) => {
+        const amount = Number(row.amount ?? 0);
+        const subtotal = row.subtotal != null ? Number(row.subtotal) : null;
+        const discount = row.discountAmount != null ? Number(row.discountAmount) : 0;
+        const tax = row.taxAmount != null ? Number(row.taxAmount) : 0;
+        const calculated = subtotal != null ? subtotal - discount + tax : amount;
+        return sum + (Number.isFinite(calculated) ? calculated : amount);
+      }, 0);
     } catch {
       /* DB unreachable */
     }
@@ -84,7 +79,7 @@ export default async function AdminDashboardPage() {
     },
     {
       label: "Orders",
-      sub: "All time",
+      sub: "Paid only",
       value: String(orderCount),
       Icon: HiOutlineShoppingBag,
       className:
@@ -93,7 +88,7 @@ export default async function AdminDashboardPage() {
     },
     {
       label: "Revenue",
-      sub: "All time",
+      sub: "Paid only",
       value: inr.format(revenue),
       Icon: HiOutlineCurrencyRupee,
       className:
@@ -186,67 +181,7 @@ export default async function AdminDashboardPage() {
         })}
       </div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_minmax(0,340px)]">
-        <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-md shadow-slate-900/[0.04] dark:border-slate-700 dark:bg-slate-900/80">
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-700/80">
-            <div>
-              <h2 className="font-display text-lg font-semibold text-slate-900 dark:text-slate-100">
-                Recent orders
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Latest customer checkouts
-              </p>
-            </div>
-          </div>
-          {recentOrders.length === 0 ? (
-            <div className="px-5 py-14 text-center">
-              <p className="text-sm text-slate-500 dark:text-slate-400">
-                No orders yet. When customers complete checkout, they will appear
-                here.
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[520px] text-left text-sm">
-                <thead>
-                  <tr className="border-b border-slate-100 bg-slate-50/80 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-400">
-                    <th className="px-5 py-3">Customer</th>
-                    <th className="px-5 py-3">Amount</th>
-                    <th className="px-5 py-3">Date</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-700/80">
-                  {recentOrders.map((row) => (
-                    <tr
-                      key={row.id}
-                      className="transition-colors hover:bg-violet-50/50 dark:hover:bg-violet-950/20"
-                    >
-                      <td className="px-5 py-3.5">
-                        <p className="font-medium text-slate-900 dark:text-slate-100">
-                          {row.fullName || "—"}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                          {row.email}
-                        </p>
-                      </td>
-                      <td className="px-5 py-3.5 tabular-nums font-semibold text-slate-800 dark:text-slate-200">
-                        {inr.format(Number(row.amount))}
-                      </td>
-                      <td className="px-5 py-3.5 text-slate-600 dark:text-slate-300">
-                        {row.createdAt.toLocaleDateString("en-IN", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-
+      <div className="mt-8">
         <aside className="space-y-3">
           <h2 className="px-1 font-display text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Quick actions
