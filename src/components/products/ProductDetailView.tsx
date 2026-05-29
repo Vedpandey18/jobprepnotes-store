@@ -53,6 +53,8 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
     product.shortDescription.trim() ||
     product.description.split("\n\n")[0]?.trim() ||
     product.description.slice(0, 280);
+  const heroIntro =
+    introText.length > 200 ? `${introText.slice(0, 197).trim()}…` : introText;
 
   return (
     <main className="relative pb-12 lg:pb-16">
@@ -112,9 +114,16 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
               <h1 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-slate-900 text-balance dark:text-slate-100 sm:text-4xl lg:text-[2.65rem] lg:leading-[1.12]">
                 {detailTitle}
               </h1>
-              <p className="mt-5 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
-                {introText}
+              <p className="mt-5 text-lg leading-relaxed text-slate-600">
+                {heroIntro}
               </p>
+              <a
+                href="#purchase"
+                className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-violet-600 hover:text-violet-700"
+              >
+                See price & Buy Now
+                <span aria-hidden>↓</span>
+              </a>
             </div>
           </div>
         </div>
