@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
-      <body className="min-h-screen font-sans">
+      <body className="min-h-screen overflow-x-hidden font-sans">
         <CartProvider>
           <Navbar />
           <ConditionalTopBanner />

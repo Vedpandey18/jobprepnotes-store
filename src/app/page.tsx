@@ -45,7 +45,7 @@ function FeaturedFallback() {
 export default function HomePage() {
   return (
     <main>
-      <section className="relative flex min-h-[calc(100svh-4.25rem-3rem)] w-full flex-col overflow-hidden border-b border-slate-200/50 dark:border-slate-800/60">
+      <section className="relative flex min-h-[calc(100svh-7.5rem)] w-full flex-col overflow-hidden border-b border-slate-200/50 dark:border-slate-800/60 sm:min-h-[calc(100svh-7.25rem)]">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-violet-50/95 via-white to-violet-50/35 dark:from-slate-950 dark:via-slate-950 dark:to-violet-950/35" />
 
         <div className="relative z-10 flex flex-1 flex-col justify-center px-4 pb-12 pt-10 sm:px-6 lg:px-10 lg:pb-16 lg:pt-14">

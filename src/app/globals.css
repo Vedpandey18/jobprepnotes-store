@@ -25,6 +25,10 @@
     animation: marquee-scroll 32s linear infinite;
   }
 
+  .animate-marquee-scroll-mobile {
+    animation: marquee-scroll 22s linear infinite;
+  }
+
   .animate-shimmer-banner {
     animation: shimmer-banner 4s ease-in-out infinite;
   }
