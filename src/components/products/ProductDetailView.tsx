@@ -56,7 +56,7 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
     product.description.slice(0, 280);
 
   return (
-    <main className="relative pb-24 lg:pb-28">
+    <main className="relative pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] lg:pb-16">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-violet-100/80 via-violet-50/40 to-transparent dark:from-violet-950/40 dark:via-slate-950 dark:to-transparent" />
 
       {/* Hero */}

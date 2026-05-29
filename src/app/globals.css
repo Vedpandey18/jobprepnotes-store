@@ -129,3 +129,7 @@ html {
   content: counter(product-step);
   @apply absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-violet-500/15 text-xs font-bold text-violet-700 dark:text-violet-300;
 }
+
+.product-mobile-buy-bar {
+  transform: translateZ(0);
+}

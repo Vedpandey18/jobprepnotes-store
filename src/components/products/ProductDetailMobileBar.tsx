@@ -12,18 +12,21 @@ export function ProductDetailMobileBar({ product }: Props) {
   const hasDiscount = original !== undefined;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-200/80 bg-white/95 px-4 py-3 shadow-[0_-8px_30px_rgba(91,33,182,0.12)] backdrop-blur-lg dark:border-violet-900/50 dark:bg-slate-950/95 lg:hidden">
-      <div className="mx-auto flex max-w-lg items-center gap-3">
+    <div
+      className="product-mobile-buy-bar fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white shadow-[0_-4px_20px_rgba(15,23,42,0.08)] lg:hidden"
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+    >
+      <div className="flex items-center gap-3 px-4 py-3">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-xs font-medium text-slate-500 dark:text-slate-400">
+          <p className="truncate text-xs font-medium text-slate-500">
             {product.title}
           </p>
           <div className="flex items-baseline gap-2">
-            <span className="font-display text-xl font-semibold tabular-nums text-slate-900 dark:text-slate-100">
+            <span className="font-display text-lg font-bold tabular-nums text-slate-900">
               {formatPrice(current)}
             </span>
             {hasDiscount && original != null && (
-              <span className="text-sm tabular-nums text-slate-500 line-through">
+              <span className="text-sm tabular-nums text-slate-400 line-through">
                 {formatPrice(original)}
               </span>
             )}
@@ -36,7 +39,7 @@ export function ProductDetailMobileBar({ product }: Props) {
             window.location.assign(checkoutUrl);
           }}
           disabled={!checkoutUrl}
-          className="shrink-0 rounded-xl bg-amber-400 px-5 py-3 text-sm font-bold text-slate-900 shadow-md shadow-amber-500/25 disabled:opacity-60"
+          className="shrink-0 rounded-xl bg-amber-400 px-5 py-2.5 text-sm font-bold text-slate-900 shadow-sm disabled:opacity-60"
         >
           Buy Now
         </button>
