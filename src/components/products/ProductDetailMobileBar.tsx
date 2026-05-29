@@ -36,7 +36,7 @@ export function ProductDetailMobileBar({ product }: Props) {
             window.location.assign(checkoutUrl);
           }}
           disabled={!checkoutUrl}
-          className="shrink-0 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 disabled:opacity-60"
+          className="shrink-0 rounded-xl bg-amber-400 px-5 py-3 text-sm font-bold text-slate-900 shadow-md shadow-amber-500/25 disabled:opacity-60"
         >
           Buy Now
         </button>

@@ -21,16 +21,19 @@ const HIGHLIGHTS = [
     icon: "📄",
     title: "Complete PDF notes",
     text: "Structured chapters you can search, highlight, and revise offline.",
+    color: "bg-violet-100 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300",
   },
   {
     icon: "⚡",
     title: "Instant access",
     text: "Download immediately after secure checkout — no waiting.",
+    color: "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
   },
   {
     icon: "🎯",
     title: "Interview-focused",
     text: "Topics mapped to real coding, technical, and HR round patterns.",
+    color: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300",
   },
 ];
 
@@ -123,21 +126,24 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
       </section>
 
       {/* Highlights strip */}
-      <section className="relative mt-12 border-y border-violet-200/50 bg-white/70 py-10 backdrop-blur dark:border-violet-900/30 dark:bg-slate-950/50 sm:mt-14">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
+      <section className="relative mt-12 bg-white py-12 dark:bg-slate-950 sm:mt-14">
+        <div className="mx-auto grid max-w-6xl gap-5 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
           {HIGHLIGHTS.map((item) => (
             <div
               key={item.title}
-              className="flex gap-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/80"
+              className="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-5 dark:border-slate-800 dark:bg-slate-900/60"
             >
-              <span className="text-2xl" aria-hidden>
+              <span
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-xl ${item.color}`}
+                aria-hidden
+              >
                 {item.icon}
               </span>
               <div>
                 <h2 className="font-display text-base font-semibold text-slate-900 dark:text-slate-100">
                   {item.title}
                 </h2>
-                <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
                   {item.text}
                 </p>
               </div>
@@ -178,10 +184,10 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
                     {learn.map((line) => (
                       <li
                         key={line}
-                        className="flex gap-3 rounded-xl border border-emerald-200/60 bg-emerald-50/50 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/20"
+                        className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/80"
                       >
                         <span
-                          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-sm text-emerald-600 dark:text-emerald-400"
+                          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-bold text-white"
                           aria-hidden
                         >
                           ✓
@@ -205,9 +211,9 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
                     {STEPS.map((item) => (
                       <li
                         key={item.step}
-                        className="relative rounded-2xl border border-violet-200/70 bg-gradient-to-br from-violet-50/80 to-white p-5 dark:border-violet-900/40 dark:from-violet-950/30 dark:to-slate-900/80"
+                        className="relative rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900/80"
                       >
-                        <span className="font-mono text-xs font-bold uppercase tracking-widest text-violet-500">
+                        <span className="inline-flex rounded-lg bg-violet-100 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-widest text-violet-700 dark:bg-violet-950/60 dark:text-violet-300">
                           Step {item.step}
                         </span>
                         <h3 className="mt-2 font-display text-base font-semibold text-slate-900 dark:text-slate-100">
@@ -233,26 +239,27 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
       </section>
 
       {/* Bottom CTA */}
-      <section className="relative mt-16 sm:mt-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-[2rem] bg-gradient-to-br from-violet-700 via-purple-700 to-violet-800 px-6 py-10 shadow-2xl shadow-violet-900/30 sm:px-10 sm:py-12">
-            <p className="text-center text-xs font-bold uppercase tracking-[0.22em] text-violet-200">
-              Ready to start preparing?
-            </p>
-            <h2 className="mt-3 text-center font-display text-2xl font-semibold text-white text-balance sm:text-3xl">
-              Get instant access to {product.title}
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed text-violet-100/90 sm:text-base">
-              Join thousands of job seekers using structured interview notes to prepare faster and with confidence.
-            </p>
-            <div className="mx-auto mt-8 max-w-md">
-              <ProductDetailBuyBox product={product} variant="cta" />
-            </div>
+      <section className="relative mt-16 border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white py-14 dark:border-slate-800 dark:from-slate-950 dark:to-slate-900 sm:mt-20 sm:py-16">
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          <span className="inline-flex rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-violet-700 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-300">
+            Ready to start preparing?
+          </span>
+          <h2 className="mt-5 font-display text-2xl font-semibold tracking-tight text-slate-900 text-balance dark:text-white sm:text-3xl">
+            Get instant access to{" "}
+            <span className="text-violet-700 dark:text-violet-400">{product.title}</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-slate-600 dark:text-slate-400">
+            Secure checkout, instant PDF delivery, and structured notes built for real interview rounds.
+          </p>
+          <div className="mx-auto mt-8 max-w-md text-left">
+            <ProductDetailBuyBox product={product} variant="cta" />
           </div>
+        </div>
 
+        <div className="mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
-            className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-violet-600 transition hover:text-violet-700 dark:text-violet-400"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 transition hover:text-violet-700 dark:text-violet-400"
           >
             <span aria-hidden>←</span> Back to all products
           </Link>
