@@ -74,14 +74,6 @@ html {
   max-width: 100%;
 }
 
-.blog-prose {
-  @apply text-slate-700;
-}
-
-.blog-prose p + p {
-  @apply mt-4;
-}
-
 .product-content-section {
   @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
 }
