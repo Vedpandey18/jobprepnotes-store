@@ -30,11 +30,18 @@
   }
 
   .marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 4%,
+      black 96%,
+      transparent
+    );
     mask-image: linear-gradient(
       to right,
       transparent,
-      black 6%,
-      black 94%,
+      black 4%,
+      black 96%,
       transparent
     );
   }

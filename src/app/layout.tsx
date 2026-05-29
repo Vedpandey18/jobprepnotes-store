@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { ConditionalFooter } from "@/components/ConditionalFooter";
+import { ConditionalTopBanner } from "@/components/ConditionalTopBanner";
 import { Navbar } from "@/components/Navbar";
 import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body className="min-h-screen font-sans">
         <CartProvider>
           <Navbar />
+          <ConditionalTopBanner />
           {children}
           <ConditionalFooter />
         </CartProvider>
