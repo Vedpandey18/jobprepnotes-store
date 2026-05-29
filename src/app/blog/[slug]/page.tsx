@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BlogCategoryBadge } from "@/components/blog/BlogCategoryBadge";
 import { LinkedInShareButton } from "@/components/blog/LinkedInShareButton";
 import { prisma } from "@/lib/prisma";
 
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  let post: { title: string; content: string; createdAt: Date } | null = null;
+  let post: { title: string; content: string; category: string; createdAt: Date } | null = null;
   try {
     post = await prisma.blog.findUnique({
       where: { slug: params.slug },
@@ -53,7 +54,8 @@ export default async function BlogPostPage({ params }: Props) {
         ← All posts
       </Link>
       <article className="mt-8">
-        <h1 className="font-display text-3xl font-semibold text-slate-900 dark:text-slate-100">
+        <BlogCategoryBadge category={post.category} />
+        <h1 className="mt-3 font-display text-3xl font-semibold text-slate-900 dark:text-slate-100">
           {post.title}
         </h1>
         <p className="mt-2 text-xs text-slate-500">

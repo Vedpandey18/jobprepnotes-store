@@ -3,6 +3,12 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth-http";
 import { prisma } from "@/lib/prisma";
 import { resolveUniqueBlogSlug } from "@/lib/unique-blog-slug";
+import { isBlogCategory } from "@/lib/blog-categories";
+
+function parseCategory(value: unknown): string {
+  const raw = String(value ?? "interview-tips").trim();
+  return isBlogCategory(raw) ? raw : "interview-tips";
+}
 
 type Ctx = { params: { id: string } };
 
@@ -30,6 +36,7 @@ export async function PUT(request: NextRequest, { params }: Ctx) {
   const title = String(body.title ?? "").trim();
   const content = String(body.content ?? "").trim();
   const slugInput = String(body.slug ?? "").trim() || undefined;
+  const category = parseCategory(body.category);
 
   if (!title || !content) {
     return NextResponse.json({ error: "title and content are required" }, { status: 400 });
@@ -40,7 +47,7 @@ export async function PUT(request: NextRequest, { params }: Ctx) {
   try {
     const updated = await prisma.blog.update({
       where: { id: params.id },
-      data: { title, slug, content },
+      data: { title, slug, content, category },
     });
     return NextResponse.json(updated);
   } catch (e) {

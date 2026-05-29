@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { CountdownSaleBanner } from "@/components/home/CountdownSaleBanner";
 import { FeaturedProductsSection } from "@/components/home/FeaturedProductsSection";
+import { HomeBlogSection } from "@/components/home/HomeBlogSection";
 import { LibraryToolIconGrid } from "@/components/home/LibraryToolIcons";
 import { PromoMarquee } from "@/components/home/PromoMarquee";
 import { SITE_SEO_KEYWORDS } from "@/lib/seo/site-keywords";
@@ -131,6 +132,10 @@ export default function HomePage() {
 
       <Suspense fallback={<FeaturedFallback />}>
         <FeaturedProductsSection />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <HomeBlogSection />
       </Suspense>
     </main>
   );

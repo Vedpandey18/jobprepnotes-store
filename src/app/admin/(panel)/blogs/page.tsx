@@ -11,8 +11,10 @@ export default function AdminBlogsPage() {
     <div>
       <h1 className="font-display text-2xl font-semibold text-slate-900 dark:text-slate-100">Blog posts</h1>
       <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-        Create and manage articles for the public blog. If the slug matches an existing post, a
-        suffix is added automatically (e.g. <code className="text-xs">java-1</code>).
+        Choose a category — <strong>Jobs</strong>, <strong>Interview Tips</strong>, or{" "}
+        <strong>Q&A</strong> — when publishing. Each post appears on the matching tab at{" "}
+        <code className="text-xs">/blog</code>. Use &quot;Insert template&quot; for a ready-made
+        format.
       </p>
       <div className="mt-8">
         <AdminBlogsClient />
