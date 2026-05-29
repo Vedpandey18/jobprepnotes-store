@@ -83,8 +83,8 @@ export function MovingTopBanner() {
           </Link>
         </div>
 
-        <div className="overflow-hidden py-2">
-          <div className="flex w-max animate-marquee-scroll-mobile">
+        <div className="overflow-hidden py-2 [contain:layout]">
+          <div className="flex w-max max-w-none animate-marquee-scroll-mobile">
             <MarqueeTrack items={MARQUEE_ITEMS_MOBILE} compact />
             <MarqueeTrack items={MARQUEE_ITEMS_MOBILE} compact ariaHidden />
           </div>
@@ -106,8 +106,8 @@ export function MovingTopBanner() {
           </span>
         </div>
 
-        <div className="marquee-mask relative min-w-0 flex-1 overflow-hidden py-3">
-          <div className="flex w-max animate-marquee-scroll">
+        <div className="marquee-mask relative min-w-0 flex-1 overflow-hidden py-3 [contain:layout]">
+          <div className="flex w-max max-w-none animate-marquee-scroll">
             <MarqueeTrack items={MARQUEE_ITEMS} />
             <MarqueeTrack items={MARQUEE_ITEMS} ariaHidden />
           </div>

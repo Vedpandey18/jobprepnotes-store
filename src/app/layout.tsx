@@ -32,6 +32,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,7 +49,7 @@ export default function RootLayout({
       className={`${jakarta.variable} ${inter.variable}`}
       style={{ colorScheme: "light" }}
     >
-      <body className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-900 antialiased">
+      <body className="overflow-x-hidden bg-white font-sans text-slate-900 antialiased">
         <CartProvider>
           <Navbar />
           <ConditionalTopBanner />

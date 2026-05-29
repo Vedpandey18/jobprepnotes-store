@@ -17,7 +17,7 @@ const legalLinks = [
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-violet-200/70 bg-gradient-to-b from-violet-50/50 via-white to-slate-50/80 dark:border-violet-900/40 dark:from-slate-950 dark:via-slate-950 dark:to-violet-950/25">
+    <footer className="border-t border-violet-200/70 bg-gradient-to-b from-violet-50/50 via-white to-slate-50/80">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
           <div className="max-w-md">
