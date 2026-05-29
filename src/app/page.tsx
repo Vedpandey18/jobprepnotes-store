@@ -44,28 +44,26 @@ function FeaturedFallback() {
 
 export default function HomePage() {
   return (
-    <main className="bg-white dark:bg-slate-950">
-      <section className="relative w-full border-b border-slate-200/50 bg-white dark:border-slate-800/60 dark:bg-slate-950 lg:flex lg:min-h-[calc(100svh-7.25rem)] lg:flex-col">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-violet-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900" />
-
-        <div className="relative z-10 px-4 pb-10 pt-8 sm:px-6 lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:px-10 lg:pb-16 lg:pt-14">
+    <main className="bg-white">
+      <section className="relative w-full border-b border-slate-200/60 bg-gradient-to-b from-violet-50 via-white to-white lg:flex lg:min-h-[calc(100svh-7.25rem)] lg:flex-col">
+        <div className="relative z-10 px-4 pb-8 pt-6 sm:px-6 sm:pb-10 sm:pt-8 lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:px-10 lg:pb-16 lg:pt-14">
           <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-x-12">
             <div className="max-w-2xl">
-              <p className="inline-flex items-center gap-2 rounded-full border border-violet-200/90 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-violet-800 shadow-sm backdrop-blur dark:border-violet-500/40 dark:bg-violet-950/55 dark:text-violet-200">
+              <p className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-violet-800">
                 Interview preparation
               </p>
-              <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-slate-900 text-balance dark:text-slate-100 sm:text-5xl sm:leading-[1.08] lg:text-6xl">
+              <h1 className="mt-5 font-display text-3xl font-semibold leading-[1.12] tracking-tight text-slate-900 text-balance sm:mt-6 sm:text-4xl sm:leading-[1.1] lg:text-6xl">
                 Study-ready interview preparation kit,{" "}
-                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-violet-500 bg-clip-text text-transparent dark:from-violet-300 dark:via-purple-300 dark:to-violet-200">
+                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-violet-500 bg-clip-text text-transparent">
                   for every role
                 </span>
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600 text-balance dark:text-slate-400 sm:text-xl sm:leading-[1.65]">
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-700 text-balance sm:mt-6 sm:text-lg sm:leading-[1.65]">
                 Condensed PDF notes for coding rounds, system design, and
                 stack-specific interviews — structured references you can use
                 from day one.
               </p>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <div className="mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <Link
                   href="/products"
                   className="btn-primary w-full px-8 py-4 text-center sm:w-auto"
@@ -79,11 +77,11 @@ export default function HomePage() {
                   Read the blog
                 </Link>
               </div>
-              <ul className="mt-10 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-2">
+              <ul className="mt-7 flex flex-col gap-2 sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-2">
                 {TRUST_BADGES.map((label) => (
                   <li
                     key={label}
-                    className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400"
+                    className="flex items-center gap-2 text-sm font-medium text-slate-700"
                   >
                     <span
                       className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs text-emerald-600 dark:text-emerald-400"
@@ -97,15 +95,15 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="relative mx-auto mt-10 w-full max-w-lg lg:mt-0 lg:mx-0 lg:justify-self-end">
-              <div className="relative overflow-hidden rounded-[1.85rem] border border-violet-200/70 bg-gradient-to-br from-violet-100/95 via-purple-50/90 to-violet-50/70 p-6 shadow-2xl ring-1 ring-violet-300/40 dark:border-violet-800/60 dark:from-violet-950/90 dark:via-purple-950/70 dark:to-slate-900/80 dark:ring-violet-500/20 sm:p-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 dark:text-violet-300">
+            <div className="relative mx-auto mt-8 w-full max-w-lg lg:mt-0 lg:mx-0 lg:justify-self-end">
+              <div className="relative overflow-hidden rounded-[1.85rem] border border-violet-200 bg-gradient-to-br from-violet-100 via-purple-50 to-white p-5 shadow-xl ring-1 ring-violet-100 sm:p-8">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-700">
                   Curated prep library
                 </p>
-                <h2 className="mt-3 font-display text-xl font-semibold leading-snug text-slate-900 dark:text-slate-100 sm:text-2xl sm:leading-tight">
+                <h2 className="mt-3 font-display text-xl font-semibold leading-snug text-slate-900 sm:text-2xl sm:leading-tight">
                   Ace your interviews with confidence
                 </h2>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">
                   Pick notes matched to your profile — from core software
                   engineering to data, cloud, and modern frontend stacks.
                 </p>
@@ -117,7 +115,7 @@ export default function HomePage() {
       </section>
 
       <section
-        className="border-b border-violet-200/40 bg-white py-8 dark:border-violet-900/30 dark:bg-slate-950 sm:py-10"
+        className="border-b border-violet-200/40 bg-white py-8 sm:py-10"
         aria-label="Limited time offer"
       >
         <div className="mx-auto max-w-6xl space-y-4 px-4 sm:px-6 lg:px-8">

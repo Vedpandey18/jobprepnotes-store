@@ -38,8 +38,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
-      <body className="min-h-screen overflow-x-hidden font-sans">
+    <html
+      lang="en"
+      className={`${jakarta.variable} ${inter.variable}`}
+      style={{ colorScheme: "light" }}
+    >
+      <body className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-900 antialiased">
         <CartProvider>
           <Navbar />
           <ConditionalTopBanner />
