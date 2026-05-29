@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiBars3, HiXMark } from "react-icons/hi2";
-import { NavbarCart } from "@/components/cart/NavbarCart";
 import { JobPrepLogo } from "@/components/JobPrepLogo";
 
 const navLinks = [
@@ -173,7 +172,6 @@ export function Navbar() {
             >
               {renderNavLinks("storefront")}
             </nav>
-            <NavbarCart />
             <button
               type="button"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-violet-50 hover:text-violet-900 dark:text-slate-200 dark:hover:bg-violet-950/50 md:hidden"

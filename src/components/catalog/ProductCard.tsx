@@ -2,20 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCart } from "@/context/CartContext";
 import { getProductImageAlt } from "@/lib/seo/product-seo";
 import { productDetailPath } from "@/lib/urls";
 import type { Product } from "@/types/product";
 import { formatPrice, getDisplayPrices } from "@/lib/pricing";
+import { getCheckoutUrlForProduct } from "@/lib/client-payment-link";
 
 export function ProductCard({ product }: { product: Product }) {
-  const { addToCart, buyNow } = useCart();
-  const router = useRouter();
   const { current, original } = getDisplayPrices(product);
   const hasDiscount = original !== undefined;
   const href = productDetailPath(product);
   const coverAlt = getProductImageAlt(product);
+  const checkoutUrl = getCheckoutUrlForProduct(product);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 shadow-md transition-all hover:border-violet-200 hover:shadow-xl dark:border-slate-700/80 dark:bg-slate-900/70">
@@ -61,23 +59,17 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
-        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+        <div className="mt-5">
           <button
             type="button"
             onClick={() => {
-              buyNow(product);
-              router.push(`/checkout?product=${encodeURIComponent(product.id)}`);
+              if (!checkoutUrl) return;
+              window.location.assign(checkoutUrl);
             }}
-            className="btn-primary w-full flex-1 sm:w-auto"
+            disabled={!checkoutUrl}
+            className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
           >
             Buy Now
-          </button>
-          <button
-            type="button"
-            onClick={() => addToCart(product)}
-            className="btn-secondary w-full flex-1 sm:w-auto"
-          >
-            Add to Cart
           </button>
         </div>
       </div>

@@ -2,27 +2,25 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCart } from "@/context/CartContext";
 import { getProductImageAlt } from "@/lib/seo/product-seo";
 import { productDetailPath } from "@/lib/urls";
 import type { Product } from "@/types/product";
 import { formatPrice, getDisplayPrices } from "@/lib/pricing";
+import { getCheckoutUrlForProduct } from "@/lib/client-payment-link";
 
 type Props = { product: Product };
 
 export function FeaturedProductCard({ product }: Props) {
-  const { addToCart, buyNow } = useCart();
-  const router = useRouter();
   const { current, original } = getDisplayPrices(product);
   const hasDiscount = original !== undefined;
   const badge = product.badge ?? "Featured";
   const href = productDetailPath(product);
   const coverAlt = getProductImageAlt(product);
+  const checkoutUrl = getCheckoutUrlForProduct(product);
 
   const handleBuyNow = () => {
-    buyNow(product);
-    router.push(`/checkout?product=${encodeURIComponent(product.id)}`);
+    if (!checkoutUrl) return;
+    window.location.assign(checkoutUrl);
   };
 
   return (
@@ -76,20 +74,14 @@ export function FeaturedProductCard({ product }: Props) {
           )}
         </div>
 
-        <div className="mt-5 flex w-full flex-col gap-2 sm:flex-row sm:gap-3">
+        <div className="mt-5 flex w-full flex-col gap-2">
           <button
             type="button"
             onClick={handleBuyNow}
-            className="inline-flex w-full flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition hover:brightness-110 sm:w-auto"
+            disabled={!checkoutUrl}
+            className="inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Buy Now
-          </button>
-          <button
-            type="button"
-            onClick={() => addToCart(product)}
-            className="inline-flex w-full flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-violet-200 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 sm:w-auto"
-          >
-            Add to Cart
           </button>
         </div>
       </div>

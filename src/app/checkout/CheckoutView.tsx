@@ -511,10 +511,10 @@ export function CheckoutView({
               {isPaying ? "Processing…" : `Proceed to pay ${formatInrDetailed(breakdown.finalTotal)}`}
             </button>
             <Link
-              href="/cart"
+              href="/products"
               className="text-center text-sm font-semibold text-violet-600 hover:text-violet-500 dark:text-violet-400 sm:text-left"
             >
-              ← Back to cart
+              ← Back to products
             </Link>
           </div>
 

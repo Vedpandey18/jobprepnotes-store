@@ -3,7 +3,6 @@ import { JobPrepLogo } from "@/components/JobPrepLogo";
 
 const shopLinks = [
   { href: "/products", label: "Products" },
-  { href: "/cart", label: "Cart" },
   { href: "/blog", label: "Blog" },
 ];
 

@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SuccessPersistClient } from "@/app/success/SuccessPersistClient";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
 };
 
 type Props = {
-  searchParams: { email?: string; amount?: string; coupon?: string; discount?: string };
+  searchParams: {
+    email?: string;
+    fullName?: string;
+    amount?: string;
+    subtotal?: string;
+    taxAmount?: string;
+    coupon?: string;
+    discount?: string;
+    paid?: string;
+  };
 };
 
 export default function SuccessPage({ searchParams }: Props) {
@@ -16,11 +26,23 @@ export default function SuccessPage({ searchParams }: Props) {
   const amount = searchParams.amount
     ? decodeURIComponent(searchParams.amount)
     : null;
+  const fullName = searchParams.fullName
+    ? decodeURIComponent(searchParams.fullName)
+    : null;
+  const subtotal = searchParams.subtotal
+    ? decodeURIComponent(searchParams.subtotal)
+    : null;
+  const taxAmount = searchParams.taxAmount
+    ? decodeURIComponent(searchParams.taxAmount)
+    : null;
   const coupon = searchParams.coupon
     ? decodeURIComponent(searchParams.coupon)
     : null;
   const discount = searchParams.discount
     ? decodeURIComponent(searchParams.discount)
+    : null;
+  const paid = searchParams.paid
+    ? decodeURIComponent(searchParams.paid)
     : null;
 
   return (
@@ -50,6 +72,16 @@ export default function SuccessPage({ searchParams }: Props) {
           Receipt will go to <strong className="text-slate-800 dark:text-slate-200">{email}</strong>
         </p>
       )}
+      <SuccessPersistClient
+        email={email}
+        fullName={fullName}
+        amount={amount}
+        subtotal={subtotal}
+        taxAmount={taxAmount}
+        coupon={coupon}
+        discount={discount}
+        paid={paid}
+      />
       <Link
         href="/products"
         className="btn-primary mt-10 inline-flex px-8 py-3"
