@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProductDescriptionContent } from "@/components/products/ProductDescriptionContent";
-import { ProductDetailBuyBox } from "@/components/products/ProductDetailBuyBox";
+import { ProductDetailBottomBuy } from "@/components/products/ProductDetailBottomBuy";
 import {
   getProductDetailTitle,
   getProductImageAlt,
@@ -115,10 +115,6 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
               <p className="mt-5 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
                 {introText}
               </p>
-
-              <div className="mt-8 lg:hidden">
-                <ProductDetailBuyBox product={product} />
-              </div>
             </div>
           </div>
         </div>
@@ -154,7 +150,7 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
       {/* Long-form content */}
       <section className="relative mt-14 sm:mt-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-14">
+          <div className="max-w-6xl lg:mx-auto">
             <div className="min-w-0 space-y-10">
               {hasStructuredContent ? (
                 <ProductDescriptionContent description={product.description} />
@@ -227,38 +223,17 @@ export function ProductDetailView({ product, showDemoBanner }: Props) {
                 </div>
               </section>
             </div>
-
-            <aside className="hidden lg:block">
-              <div className="sticky top-24">
-                <ProductDetailBuyBox product={product} variant="sticky" />
-              </div>
-            </aside>
           </div>
         </div>
       </section>
 
-      {/* Bottom CTA */}
-      <section className="relative mt-16 border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white py-14 dark:border-slate-800 dark:from-slate-950 dark:to-slate-900 sm:mt-20 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <span className="inline-flex rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-violet-700 dark:border-violet-800 dark:bg-violet-950/50 dark:text-violet-300">
-            Ready to start preparing?
-          </span>
-          <h2 className="mt-5 font-display text-2xl font-semibold tracking-tight text-slate-900 text-balance dark:text-white sm:text-3xl">
-            Get instant access to{" "}
-            <span className="text-violet-700 dark:text-violet-400">{product.title}</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-slate-600 dark:text-slate-400">
-            Secure checkout, instant PDF delivery, and structured notes built for real interview rounds.
-          </p>
-          <div className="mx-auto mt-8 max-w-md text-left">
-            <ProductDetailBuyBox product={product} variant="cta" />
-          </div>
-        </div>
+      <ProductDetailBottomBuy product={product} />
 
-        <div className="mx-auto mt-10 max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="pb-12 pt-4">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 transition hover:text-violet-700 dark:text-violet-400"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 transition hover:text-violet-700"
           >
             <span aria-hidden>←</span> Back to all products
           </Link>
