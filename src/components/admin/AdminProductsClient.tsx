@@ -261,11 +261,31 @@ export function AdminProductsClient() {
           </label>
           <label className="col-span-full block text-sm">
             <span className="text-slate-600 dark:text-slate-400">Description *</span>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              Use sections for a long product page. Start lines with{" "}
+              <code className="rounded bg-slate-100 px-1 dark:bg-slate-800">## Heading</code>, bullets with{" "}
+              <code className="rounded bg-slate-100 px-1 dark:bg-slate-800">- item</code>, and bold with{" "}
+              <code className="rounded bg-slate-100 px-1 dark:bg-slate-800">**text**</code>.
+            </p>
             <textarea
-              rows={4}
-              className="mt-1 w-full rounded border border-slate-200 px-2 py-1.5 text-sm dark:border-slate-600 dark:bg-slate-950"
+              rows={10}
+              className="mt-2 w-full rounded border border-slate-200 px-2 py-1.5 font-mono text-sm dark:border-slate-600 dark:bg-slate-950"
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              placeholder={`Short intro paragraph about the product.
+
+## What's inside
+- Core Java, OOP, collections & multithreading
+- 2000+ interview questions with answers
+- JVM, memory model & performance topics
+
+## Who is this for
+Freshers and experienced developers preparing for **Java developer** interviews.
+
+## What you will learn
+- Answer technical questions with structured talking points
+- Revise high-frequency topics quickly before interviews
+- Build confidence for coding and HR rounds`}
             />
           </label>
           <label className="block text-sm">

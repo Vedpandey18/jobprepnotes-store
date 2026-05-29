@@ -66,3 +66,59 @@
 body {
   @apply min-h-screen bg-slate-50 font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
 }
+
+.product-content-section {
+  @apply overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900/80;
+}
+
+.product-content-section-header {
+  @apply flex items-center gap-3 border-b border-violet-100 bg-gradient-to-r from-violet-50/90 to-white px-6 py-5 dark:border-violet-900/30 dark:from-violet-950/40 dark:to-slate-900/80 sm:px-8;
+}
+
+.product-content-section-dot {
+  @apply h-2.5 w-2.5 shrink-0 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 shadow-sm shadow-violet-500/40;
+}
+
+.product-content-section-title {
+  @apply font-display text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl;
+}
+
+.product-content-section-subtitle {
+  @apply font-display text-lg font-semibold text-slate-800 dark:text-slate-200;
+}
+
+.product-content-section-body {
+  @apply space-y-4 px-6 py-6 sm:px-8 sm:py-7;
+}
+
+.product-prose-paragraph {
+  @apply text-base leading-[1.75] text-slate-600 dark:text-slate-400;
+}
+
+.product-prose-list {
+  @apply space-y-2.5;
+}
+
+.product-prose-list > li {
+  @apply relative pl-7 text-base leading-relaxed text-slate-600 dark:text-slate-400;
+}
+
+.product-prose-list > li::before {
+  content: "✓";
+  @apply absolute left-0 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-[11px] font-bold text-emerald-600 dark:text-emerald-400;
+}
+
+.product-prose-list-ordered {
+  @apply list-none space-y-3;
+  counter-reset: product-step;
+}
+
+.product-prose-list-ordered > li {
+  @apply pl-9;
+}
+
+.product-prose-list-ordered > li::before {
+  counter-increment: product-step;
+  content: counter(product-step);
+  @apply absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-violet-500/15 text-xs font-bold text-violet-700 dark:text-violet-300;
+}

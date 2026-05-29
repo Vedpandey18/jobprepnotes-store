@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import { extractListFromSection } from "@/lib/format-product-description";
 
 export function getProductImageAlt(product: Product): string {
   const base = product.title;
@@ -31,9 +32,22 @@ export function getProductMetaDescription(product: Product): string {
 }
 
 export function getWhatYouWillLearnBullets(product: Product): string[] {
+  const fromDescription = extractListFromSection(
+    product.description,
+    "what you will learn"
+  );
+  if (fromDescription.length > 0) return fromDescription;
+
+  const fromInside = extractListFromSection(
+    product.description,
+    "what's inside"
+  );
+  if (fromInside.length > 0) return fromInside;
+
   return [
     "Structured chapters mapped to real interview themes",
     "Checklists and talking points for quick revision",
     "PDF format for offline search and annotation",
+    "Practical examples aligned with company interview patterns",
   ];
 }
