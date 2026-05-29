@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { LinkedInShareButton } from "@/components/blog/LinkedInShareButton";
+import { InstagramLinkButton } from "@/components/blog/InstagramLinkButton";
 import { prisma } from "@/lib/prisma";
 
 type Props = { params: { slug: string } };
@@ -45,30 +45,55 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <Link
-        href="/blog"
-        className="text-sm font-medium text-violet-600 hover:underline dark:text-violet-400"
-      >
-        ← All posts
-      </Link>
-      <article className="mt-8">
-        <h1 className="font-display text-3xl font-semibold text-slate-900 dark:text-slate-100">
-          {post.title}
-        </h1>
-        <p className="mt-2 text-xs text-slate-500">
-          {post.createdAt.toLocaleDateString("en-IN", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
-        <div className="mt-6">
-          <LinkedInShareButton path={`/blog/${params.slug}`} />
-        </div>
-        <div className="mt-8 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-300 sm:text-base">
+    <main className="bg-white">
+      <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-12">
+        <Link
+          href="/blog"
+          className="text-sm font-medium text-violet-600 hover:text-violet-700"
+        >
+          ← All posts
+        </Link>
+
+        <header className="mt-6 border-b border-slate-100 pb-6">
+          <time
+            className="text-xs font-medium uppercase tracking-wide text-violet-600"
+            dateTime={post.createdAt.toISOString()}
+          >
+            {post.createdAt.toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+          <h1 className="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight text-slate-900 sm:text-4xl">
+            {post.title}
+          </h1>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <InstagramLinkButton label="Follow us on Instagram" />
+          </div>
+        </header>
+
+        <div className="blog-prose mt-8 whitespace-pre-wrap text-base leading-[1.8] text-slate-700">
           {post.content}
         </div>
+
+        <footer className="mt-12 space-y-6 border-t border-slate-100 pt-8">
+          <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-6 text-center">
+            <p className="font-display text-lg font-semibold text-slate-900">
+              Want full interview notes?
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              Structured PDF kits for coding, system design, and role-specific prep.
+            </p>
+            <Link
+              href="/products"
+              className="mt-4 inline-flex rounded-xl bg-violet-600 px-6 py-3 text-sm font-semibold text-white hover:brightness-110"
+            >
+              Browse products
+            </Link>
+          </div>
+          <InstagramLinkButton label="Follow JobPrepNotes on Instagram" />
+        </footer>
       </article>
     </main>
   );
