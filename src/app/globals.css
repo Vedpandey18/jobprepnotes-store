@@ -2,7 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes shimmer-banner {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
 @layer utilities {
+  .animate-marquee-scroll {
+    animation: marquee-scroll 32s linear infinite;
+  }
+
+  .animate-shimmer-banner {
+    animation: shimmer-banner 4s ease-in-out infinite;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 6%,
+      black 94%,
+      transparent
+    );
+  }
+
   .text-balance {
     text-wrap: balance;
   }
