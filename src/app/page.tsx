@@ -44,11 +44,11 @@ function FeaturedFallback() {
 
 export default function HomePage() {
   return (
-    <main>
-      <section className="relative flex min-h-[calc(100svh-7.5rem)] w-full flex-col overflow-hidden border-b border-slate-200/50 dark:border-slate-800/60 sm:min-h-[calc(100svh-7.25rem)]">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-violet-50/95 via-white to-violet-50/35 dark:from-slate-950 dark:via-slate-950 dark:to-violet-950/35" />
+    <main className="bg-white dark:bg-slate-950">
+      <section className="relative w-full border-b border-slate-200/50 bg-white dark:border-slate-800/60 dark:bg-slate-950 lg:flex lg:min-h-[calc(100svh-7.25rem)] lg:flex-col">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-violet-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900" />
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-4 pb-12 pt-10 sm:px-6 lg:px-10 lg:pb-16 lg:pt-14">
+        <div className="relative z-10 px-4 pb-10 pt-8 sm:px-6 lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:px-10 lg:pb-16 lg:pt-14">
           <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-x-12">
             <div className="max-w-2xl">
               <p className="inline-flex items-center gap-2 rounded-full border border-violet-200/90 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-violet-800 shadow-sm backdrop-blur dark:border-violet-500/40 dark:bg-violet-950/55 dark:text-violet-200">
@@ -97,7 +97,7 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="relative mx-auto w-full max-w-lg lg:mx-0 lg:justify-self-end">
+            <div className="relative mx-auto mt-10 w-full max-w-lg lg:mt-0 lg:mx-0 lg:justify-self-end">
               <div className="relative overflow-hidden rounded-[1.85rem] border border-violet-200/70 bg-gradient-to-br from-violet-100/95 via-purple-50/90 to-violet-50/70 p-6 shadow-2xl ring-1 ring-violet-300/40 dark:border-violet-800/60 dark:from-violet-950/90 dark:via-purple-950/70 dark:to-slate-900/80 dark:ring-violet-500/20 sm:p-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 dark:text-violet-300">
                   Curated prep library
