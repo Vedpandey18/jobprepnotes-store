@@ -14,7 +14,7 @@ export function ProductDetailBottomBuy({ product }: Props) {
   return (
     <section
       id="purchase"
-      className="scroll-mt-20 border-t border-slate-200 bg-gradient-to-b from-violet-50/80 to-white py-10 sm:py-12"
+      className="scroll-mt-20 border-t border-slate-100 bg-white py-8 sm:py-10"
       aria-label="Purchase"
     >
       <div className="mx-auto max-w-3xl px-4 sm:px-6">

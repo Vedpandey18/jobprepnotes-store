@@ -75,11 +75,11 @@ html {
 }
 
 .product-content-section {
-  @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md shadow-slate-200/40 dark:border-slate-700 dark:bg-slate-900 dark:shadow-none;
+  @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
 }
 
 .product-content-section-header {
-  @apply flex items-center gap-3 border-b border-slate-100 bg-slate-50 px-6 py-5 dark:border-slate-800 dark:bg-slate-900/90 sm:px-8;
+  @apply flex items-center gap-3 border-b border-slate-100 bg-slate-50 px-5 py-4 sm:px-6;
 }
 
 .product-content-section-dot {
@@ -87,7 +87,7 @@ html {
 }
 
 .product-content-section-title {
-  @apply font-display text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100 sm:text-2xl;
+  @apply font-display text-lg font-semibold tracking-tight text-slate-900 sm:text-xl;
 }
 
 .product-content-section-subtitle {
@@ -99,7 +99,7 @@ html {
 }
 
 .product-prose-paragraph {
-  @apply text-base leading-[1.75] text-slate-600 dark:text-slate-400;
+  @apply text-base leading-relaxed text-slate-600;
 }
 
 .product-prose-list {
@@ -107,7 +107,7 @@ html {
 }
 
 .product-prose-list > li {
-  @apply relative pl-7 text-base leading-relaxed text-slate-600 dark:text-slate-400;
+  @apply relative pl-7 text-base leading-relaxed text-slate-600;
 }
 
 .product-prose-list > li::before {
@@ -127,5 +127,5 @@ html {
 .product-prose-list-ordered > li::before {
   counter-increment: product-step;
   content: counter(product-step);
-  @apply absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-violet-500/15 text-xs font-bold text-violet-700 dark:text-violet-300;
+  @apply absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-xs font-bold text-violet-700;
 }
